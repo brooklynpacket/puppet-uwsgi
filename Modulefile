@@ -1,0 +1,8 @@
+name    'puppet-uwsgi'
+version '0.1'
+source 'https://github.com/IDCubed/puppet-uwsgi.git'
+author 'IDCubed'
+license 'LGPLv3?'
+summary 'Basic module for configuring and managing uwsgi as a service, via puppet'
+description 'Basic module for configuring and managing uwsgi as a service, via puppet.'
+project_page 'http://github.com/IDCubed/puppet-uwsgi'

@@ -1,0 +1,52 @@
+# Nginx Recipe #
+Author	: illumin-us-r3v0lution for IDCubed <luminaries@riseup.net>
+Version	: 0.1
+Licence : LGPL v3
+
+Basic module for configuring and managing uwsgi as a service, via puppet.
+
+We're running uwsgi in emperor mode, allowing one uwsgi instance to monitor and
+manage many uwsgi applications. see http://projects.unbit.it/uwsgi/wiki/Emperor
+for more details.
+
+here is an example uwsgi.ini for a django app:
+
+    [uwsgi]
+    socket = 127.0.0.1:3034
+    threads = 40
+    master = 1
+    env = DJANGO_SETTINGS_MODULE=myapp.settings
+    module = django.core.handlers.wsgi:WSGIHandler()
+    chdir = /var/www/python/MyInstance/my_app
+
+
+## Class: uwsgi ##
+
+Parameters (used in uwsgi.conf.erb) :
+       * $uwsgi_user. Defaults to 'www-data'. 
+       * $uwsgi_worker_processes. Defaults to '1'.
+       * $uwsgi_worker_connections. Defaults to '1024'.
+
+Install uwsgi.
+Create config directories :
+	* /etc/uwsgi/apps-enabled
+	* /etc/uwsgi/apps-available
+
+Provide 1 definition : 
+	* uwsgi::app (http app)
+
+Templates:
+	- uwsgi.conf.erb => /etc/uwsgi/uwsgi.conf
+
+
+###  Define: uwsgi::app ###
+
+Install a uwsgi app in /etc/uwsgi/apps-available (and symlink in /etc/uwsgi/apps-enabled). 
+
+Parameters :
+	* ensure: typically set to "present" or "absent". Defaults to "present"
+	* content: app definition (should be a template).
+
+
+## CHANGELOG ##
+- v0.1 : * initial release
