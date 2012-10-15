@@ -31,10 +31,10 @@ class uwsgi {
   #restart-command is a quick-fix here, until http://projects.puppetlabs.com/issues/1014 is solved
   # XXX - currently disabled, no restart in the upstart service script
   service { 'uwsgi':
+    provider   => upstart,
     ensure     => running,
     enable     => true,
-    hasrestart => false,
-    restart    => '/etc/init.d/uwsgi reload'
+    require    => File['/etc/init/uwsgi.conf']
   }
 
   file { $uwsgi_conf:
@@ -45,13 +45,13 @@ class uwsgi {
     require => Package['uwsgi'],
   }
 
-  file { '/etc/init.d/uwsgi':
+  file { '/etc/init/uwsgi.conf':
     ensure  => file,
-    mode    => '0755',
+    mode    => '0644',
     owner   => 'root',
     group   => 'root',
     require => Package['uwsgi'],
-    content => 'etc/init.d/uwsgi'
+    source => "puppet:///modules/uwsgi/etc/init/uwsgi.conf"
   }
 
   file { $uwsgi_logdir:
