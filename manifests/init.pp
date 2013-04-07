@@ -37,7 +37,7 @@ class uwsgi {
     require    => File['/etc/init/uwsgi.conf']
   }
 
-  file { $uwsgi_conf:
+  file { [$uwsgi_conf, "${uwsgi_conf}/apps-enabled", "${uwsgi_conf}/apps-available"]:
     ensure  => directory,
     mode    => '0644',
     owner   => 'root',
