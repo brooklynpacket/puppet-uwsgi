@@ -4,6 +4,8 @@
 # This definition is private, not intended to be called directly
 #
 define uwsgi::install_app($content=undef) {
+  include uwsgi
+
   # first, make sure the app config exists
   case $content {
     undef: {
