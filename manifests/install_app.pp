@@ -39,6 +39,6 @@ define uwsgi::install_app($content=undef) {
       [ /etc/uwsgi/apps-enabled/${name} -ef /etc/uwsgi/apps-available/${name} ]'",
     path    => ['/usr/bin/', '/bin/'],
     notify  => Service['uwsgi'],
-    require => File["apps-${name}"],
+    require => [File["/etc/uwsgi/apps-available/${name}"], Package['uwsgi']],
   }
 }
