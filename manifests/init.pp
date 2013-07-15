@@ -23,7 +23,7 @@ class uwsgi {
 
   if ! defined(Package['uwsgi']) {
     package { 'uwsgi':
-      ensure => installed,
+      ensure => latest,
       provider => pip,
     }
   }
@@ -52,6 +52,13 @@ class uwsgi {
     group   => 'root',
     require => Package['uwsgi'],
     source => "puppet:///modules/uwsgi/etc/init/uwsgi.conf"
+  }
+
+  file { '/var/run/uwsgi' :
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
   }
 
   file { $uwsgi_logdir:
